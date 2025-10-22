@@ -26,9 +26,8 @@ function main() {
     }
 
     result[data.sold_by] = {
-      // TODO: Find a way to obtain the shops selling multiplier.
       sellMultiplier: parseInt(data.store_sell_multiplier) / 10,
-      items: {}
+      items: { [data.sold_item]: parseInt(data.store_stock) }
     }
   }
 
