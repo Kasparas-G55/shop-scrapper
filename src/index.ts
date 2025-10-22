@@ -20,12 +20,18 @@ function main() {
 
   const result: Record<string, FormattedData> = {};
   for (const data of json) {
-    if (result[data.sold_by]) {
-      result[data.sold_by]!.items[data.sold_item] = parseInt(data.store_stock);
+    const storeName = data.sold_by
+      .replaceAll(/[^a-zA-Z ]+/g, '')
+      .toUpperCase()
+      .split(" ")
+      .join("_")
+
+    if (result[storeName]) {
+      result[storeName]!.items[data.sold_item] = parseInt(data.store_stock);
       continue;
     }
 
-    result[data.sold_by] = {
+    result[storeName] = {
       sellMultiplier: parseInt(data.store_sell_multiplier) / 10,
       items: { [data.sold_item]: parseInt(data.store_stock) }
     }
