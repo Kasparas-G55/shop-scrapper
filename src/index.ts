@@ -5,12 +5,14 @@ interface StoreData {
   store_stock: string;
   store_currency: string;
   store_sell_multiplier: string;
+  store_delta: string;
   sold_item: string;
   sold_by: string;
 }
 
 interface FormattedData {
   sellMultiplier: number;
+  storeDelta: number;
   items: Record<string, number>;
 }
 
@@ -32,6 +34,7 @@ function main() {
     }
 
     result[storeName] = {
+      storeDelta: parseInt(data.store_delta) / 10,
       sellMultiplier: parseInt(data.store_sell_multiplier) / 10,
       items: { [data.sold_item]: parseInt(data.store_stock) }
     }

@@ -12,7 +12,7 @@ async function getBucket() {
   for (let offset = 0; !lastPage; offset += 500) {
     url.searchParams.set('query',
       `bucket('storeline') \
-        .select('sold_by', 'sold_item', 'store_stock', 'store_currency', 'store_sell_multiplier') \
+        .select('sold_by', 'sold_item', 'store_stock', 'store_currency', 'store_sell_multiplier', 'store_delta') \
         .where('store_currency', '=', 'Coins') \
         .where('store_stock', '>=', '0') \
         .where('store_stock', '!=', 'N/A') \
