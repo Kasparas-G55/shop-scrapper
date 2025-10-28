@@ -13,7 +13,7 @@ interface ShopData {
 interface FormattedData {
   sellMultiplier: number;
   shopDelta: number;
-  items: Record<string, number>;
+  itemStocks: Record<string, number>;
 }
 
 function main() {
@@ -29,14 +29,14 @@ function main() {
       .join("_")
 
     if (result[shopName]) {
-      result[shopName]!.items[data.sold_item] = parseInt(data.store_stock);
+      result[shopName]!.itemStocks[data.sold_item] = parseInt(data.store_stock);
       continue;
     }
 
     result[shopName] = {
       shopDelta: parseInt(data.store_delta) / 10,
       sellMultiplier: parseInt(data.store_sell_multiplier) / 10,
-      items: { [data.sold_item]: parseInt(data.store_stock) }
+      itemStocks: { [data.sold_item]: parseInt(data.store_stock) }
     }
   }
 
