@@ -19,18 +19,24 @@ interface FormattedData {
 function main() {
   const text = fs.readFileSync(path.resolve('bucket.json'), 'utf8');
   const json: ShopData[] = JSON.parse(text);
+  const dupes = new Set();
 
   const result: Record<string, FormattedData> = {};
   for (const data of json) {
     const shopName = data.sold_by
-      .replaceAll(/[^a-zA-Z ]+/g, '')
+      .replaceAll(/\([^)]*\)|[^a-zA-Z ]+/g, '')
       .trim()
       .toUpperCase()
       .split(/\s+/g)
       .join("_")
 
     if (result[shopName]) {
-      result[shopName]!.itemStocks[data.sold_item] = parseInt(data.store_stock);
+
+      if (result[shopName].itemStocks[data.sold_item]) {
+        dupes.add(shopName)
+      }
+
+      result[shopName].itemStocks[data.sold_item] = parseInt(data.store_stock);
       continue;
     }
 
@@ -41,6 +47,7 @@ function main() {
     }
   }
 
+  console.warn("Duplicate shops:", dupes)
   fs.writeFileSync(path.resolve('./shops.json'), JSON.stringify(result))
 };
 
