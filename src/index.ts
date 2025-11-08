@@ -24,8 +24,9 @@ function main() {
   for (const data of json) {
     const shopName = data.sold_by
       .replaceAll(/[^a-zA-Z ]+/g, '')
+      .trim()
       .toUpperCase()
-      .split(" ")
+      .split(/\s+/g)
       .join("_")
 
     if (result[shopName]) {
